@@ -45,12 +45,12 @@ const App = () => {
     {
       key: '2',
       icon: <ReadOutlined />,
-      label: 'nav 2',
+      label: '',
     },
     {
       key: '3',
       icon: <CoffeeOutlined />,
-      label: 'nav 3',
+      label: '',
     },
   ]
 
@@ -62,7 +62,8 @@ const App = () => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultOpenKeys={['1']}
+            defaultSelectedKeys={['1-1']}
           >
             {menuData.map((item) => {
               if (item.children) {
