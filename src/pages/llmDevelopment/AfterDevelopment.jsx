@@ -1,7 +1,15 @@
 import React from 'react';
+import FormatText from '../../components/FormatText'
 
 const Page = () => {
-  return <h1>这是开发后</h1>;
+  const paramNames = ['name', 'age', 'city'];
+  const formatTemplate = 'Hello, my name is {{name}}, I am {{age}} years old, and I live in {{city}}.';
+
+  return (
+    <div>
+      <FormatText paramNames={paramNames} formatTemplate={formatTemplate} />
+    </div>
+  );
 };
 
 export default Page;
