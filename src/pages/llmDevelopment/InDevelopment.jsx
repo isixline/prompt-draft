@@ -2,12 +2,15 @@ import React from 'react';
 import FormatText from '../../components/FormatText'
 
 const Page = () => {
-  const paramNames = ['text'];
-  const formatTemplate = '转换 {{text}} 为大写下划线格式';
+  const promptTemplates = [
+    {title: '代码检查', paramNames: ['code'], formatTemplate: '请帮我检查下以下代码 \n {{code}}'}
+  ]
 
   return (
     <div>
-      <FormatText paramNames={paramNames} formatTemplate={formatTemplate} />
+      {promptTemplates.map((template) => (
+        <FormatText key={template.title} {...template} />
+      ))}
     </div>
   );
 };

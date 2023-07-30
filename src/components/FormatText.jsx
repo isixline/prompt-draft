@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Input, Button, message, Card } from 'antd';
-import { CopyOutlined } from '@ant-design/icons';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Input, Card, Space } from 'antd';
+import CopyButton from './CopyButton';
+import TextArea from 'antd/es/input/TextArea';
 
 const FormatTextComponent = ({ title, paramNames, formatTemplate }) => {
   const [paramValues, setParamValues] = useState({});
@@ -22,35 +22,23 @@ const FormatTextComponent = ({ title, paramNames, formatTemplate }) => {
     return formattedText;
   };
 
-  const handleCopySuccess = () => {
-    message.success('Formatted text copied to clipboard!');
-  };
-
   return (
-    <Card title={title}>
-      <div>
-        <div style={{ marginBottom: 8 }}>
-          <div style={{ border: '1px solid #ccc', padding: 8 }}>{formatTemplate}</div>
+    <Card title={title} extra={<CopyButton text={formatText()} />}>
+      <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+        <div>
+          {formatTemplate}
         </div>
         {paramNames.map((paramName) => (
           <Input
             key={paramName}
-            style={{ marginBottom: 8 }}
             placeholder={paramName}
             onChange={(e) => handleInputChange(paramName, e.target.value)}
           />
         ))}
         {Object.keys(paramValues).length > 0 && (
-          <div style={{ marginTop: 16, display: 'flex', alignItems: 'center' }}>
-            <div style={{ border: '1px solid #ccc', padding: 8, flexGrow: 1 }}>
-              {formatText()}
-            </div>
-            <CopyToClipboard text={formatText()} onCopy={handleCopySuccess}>
-              <Button icon={<CopyOutlined />} style={{ marginLeft: 8 }} />
-            </CopyToClipboard>
-          </div>
+          <TextArea value={formatText()} />
         )}
-      </div>
+      </Space>
     </Card>
   );
 };
