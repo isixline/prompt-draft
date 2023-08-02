@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        booleanParam(name: 'IS_DEPLOY', defaultValue: false, description: 'Confirm deployment')
+        choice(name: 'DEPLOY', choices: ['yes', 'no'], description: 'Confirm deployment')
     }
     
     tools {
@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    return params.IS_DEPLOY
+                    return params.DEPLOY == 'yes'
                 }
             }
             steps {
