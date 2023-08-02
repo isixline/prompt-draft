@@ -1,5 +1,9 @@
- pipeline {
+pipeline {
     agent any
+
+    parameters {
+        booleanParam(name: 'IS_DEPLOY', defaultValue: false, description: 'Confirm deployment')
+    }
     
     tools {
         nodejs 'NodeJS-16'
@@ -27,11 +31,16 @@
         }
 
         stage('Deploy') {
+            when {
+                expression {
+                    return params.IS_DEPLOY
+                }
+            }
             steps {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'SERVER_SSH_PRIVATE_KEY', keyFileVariable: 'identity')]) {
                         sh "ssh ${env.REMOTE_SERVER_USER}@${env.REMOTE_SERVER_HOST} 'whoami'"
-                        sh "scp -r build/ ${env.REMOTE_SERVER_USER}@${env.REMOTE_SERVER_HOST}:${env.REMOTE_SERVER_DIR}"
+                        sh "scp -r build/ ${env.REMOTE_SERVER_USER}@${env.REMOTE_SERVER_HOST}:${env.REMOTE_SERVER_TARGET}"
                     }
                 }
             }
