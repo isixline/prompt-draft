@@ -1,9 +1,5 @@
 pipeline {
     agent any
-
-    parameters {
-        choice(name: 'DEPLOY', choices: ['yes', 'no'], description: 'Confirm deployment')
-    }
     
     tools {
         nodejs 'NodeJS-16'
@@ -31,10 +27,9 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                expression {
-                    return params.DEPLOY == 'yes'
-                }
+           input {
+                    message "Continue deploy?"
+                    ok "Yes"
             }
             steps {
                 script {
